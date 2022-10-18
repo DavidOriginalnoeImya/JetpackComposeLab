@@ -1,8 +1,9 @@
 package com.example.login.form
 
 import DetailScreen
-import ListScreen
+import com.example.login.form.ui.screens.ListScreen
 import LoginScreen
+import com.example.login.form.ui.screens.SplashScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -30,8 +31,11 @@ class MainActivity : ComponentActivity() {
             LoginFormTheme {
                 AnimatedNavHost(
                     navController = navController,
-                    startDestination = NavRoutes.Login.route,
+                    startDestination = NavRoutes.Splash.route,
                 ) {
+                    composable(NavRoutes.Splash.route) {
+                        SplashScreen(navController = navController)
+                    }
                     composable(
                         NavRoutes.Login.route,
                         enterTransition = {
