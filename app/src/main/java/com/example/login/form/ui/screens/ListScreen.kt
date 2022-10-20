@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.login.form.ui.NavRoutes
 import com.example.viewmodels.MainViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.example.login.form.R
 import com.gowtham.ratingbar.RatingBar
@@ -31,7 +30,7 @@ import com.gowtham.ratingbar.RatingBarConfig
 import com.gowtham.ratingbar.RatingBarStyle
 
 @Composable
-fun ListScreen(navController: NavHostController,  viewModel: MainViewModel = viewModel()) {
+fun ListScreen(navController: NavHostController,  viewModel: MainViewModel) {
     val context = LocalContext.current
 
     LaunchedEffect(context) {
@@ -45,26 +44,29 @@ fun ListScreen(navController: NavHostController,  viewModel: MainViewModel = vie
         viewModel.parseCharactersList(json)
     }
 
-
     Column(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CharactersList(characters = viewModel.characterList)
+        Text(viewModel.characterList.size.toString())
+        CharactersList(navController, characters = viewModel.characterList)
     }
 }
 
 @Composable
-fun CharactersList(characters: ArrayList<com.example.data.Character>) {
+fun CharactersList(navController: NavHostController, characters: ArrayList<com.example.data.Character>) {
     LazyVerticalGrid (columns = GridCells.Adaptive(160.dp)){
         items(characters.size) { index ->
             Card(
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 8.dp)
                     .fillMaxWidth()
-                    .clickable { /*TODO*/ }
+                    .clickable (
+                            onClick = {
+                                navController.navigate(NavRoutes.Detail.route + "/" + index)
+                            }
+                    )
             ) {
                 Column{
                     AsyncImage(

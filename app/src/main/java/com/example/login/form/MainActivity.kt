@@ -1,6 +1,6 @@
 package com.example.login.form
 
-import DetailScreen
+import com.example.login.form.ui.screens.DetailScreen
 import com.example.login.form.ui.screens.ListScreen
 import LoginScreen
 import com.example.login.form.ui.screens.SplashScreen
@@ -13,8 +13,10 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.ui.unit.IntOffset
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.login.form.ui.NavRoutes
 import com.example.login.form.ui.theme.LoginFormTheme
+import com.example.viewmodels.MainViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -27,6 +29,8 @@ class MainActivity : ComponentActivity() {
             val navController = rememberAnimatedNavController()
 
             val springSpec = spring<IntOffset>(dampingRatio = Spring.DampingRatioMediumBouncy)
+
+            val viewModel: MainViewModel = viewModel()
 
             LoginFormTheme {
                 AnimatedNavHost(
@@ -68,7 +72,7 @@ class MainActivity : ComponentActivity() {
                             slideOutHorizontally(targetOffsetX = { 1000 }, animationSpec = springSpec)
                         }
                     ) {
-                        ListScreen(navController = navController)
+                        ListScreen(navController = navController, viewModel)
                     }
                     composable(
                         NavRoutes.Detail.route + "/{id}",
@@ -86,7 +90,7 @@ class MainActivity : ComponentActivity() {
                         }
                     ) { backStackEntry ->
                         val id = backStackEntry.arguments?.getString("id")
-                        DetailScreen(navController = navController, id)
+                        DetailScreen(navController = navController, id, viewModel)
                     }
                 }
             }
