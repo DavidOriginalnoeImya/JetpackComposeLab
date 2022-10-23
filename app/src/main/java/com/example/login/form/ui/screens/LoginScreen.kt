@@ -230,11 +230,3 @@ private fun checkInput(username: String, password: String, email: String): Strin
 
     return "Error"
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun DefaultPreview() {
-//    LoginFormTheme {
-//        LoginScreen()
-//    }
-//}

@@ -49,7 +49,6 @@ fun ListScreen(navController: NavHostController,  viewModel: MainViewModel) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(viewModel.characterList.size.toString())
         CharactersList(navController, characters = viewModel.characterList)
     }
 }
@@ -79,7 +78,7 @@ fun CharactersList(navController: NavHostController, characters: ArrayList<com.e
                         text = characters[index].name
                     )
 
-                    Row (modifier = Modifier.padding(start = 12.dp, bottom = 5.dp)) {
+                    Row (modifier = Modifier.padding(start = 7.dp, bottom = 10.dp, top = 5.dp)) {
                         Icon(
                             painter = painterResource(R.drawable.ic_baseline_sports_mma_24),
                             contentDescription = null
