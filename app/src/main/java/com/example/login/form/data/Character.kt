@@ -1,4 +1,4 @@
-package com.example.data
+package com.example.login.form.data
 
 
 import com.google.gson.annotations.SerializedName
@@ -26,7 +26,8 @@ data class Character(@SerializedName("images")
                      @SerializedName("slug")
                      val slug: String = "",
                      @SerializedName("connections")
-                     val connections: Connections)
+                     val connections: Connections
+)
 
 
 data class Images(@SerializedName("md")

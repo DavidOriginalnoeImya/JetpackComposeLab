@@ -1,11 +1,7 @@
 package com.example.login.form.ui.screens
 
-import android.util.Log
-import android.widget.RatingBar
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.*
@@ -13,35 +9,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.login.form.ui.NavRoutes
 import com.example.viewmodels.MainViewModel
 import coil.compose.AsyncImage
 import com.example.login.form.R
+import com.example.login.form.data.Character
 import com.gowtham.ratingbar.RatingBar
-import java.io.InputStream
 import com.gowtham.ratingbar.RatingBarConfig
-import com.gowtham.ratingbar.RatingBarStyle
 
 @Composable
 fun ListScreen(navController: NavHostController,  viewModel: MainViewModel) {
     val context = LocalContext.current
 
     LaunchedEffect(context) {
-        var json: String = ""
-        val inputStream: InputStream = context.assets.open("all.json")
-        val size: Int = inputStream.available()
-        val buffer = ByteArray(size)
-        inputStream.read(buffer)
-        inputStream.close()
-        json = String(buffer, charset("UTF-8"))
-        viewModel.parseCharactersList(json)
+        viewModel.requestCharacterList()
     }
 
     Column(
@@ -49,12 +36,23 @@ fun ListScreen(navController: NavHostController,  viewModel: MainViewModel) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CharactersList(navController, characters = viewModel.characterList)
+        if (viewModel.loading) {
+            CircularProgressIndicator()
+        } else if (viewModel.errorMessage !== "") {
+            Text(
+                modifier = Modifier.padding(all = 8.dp),
+                textAlign = TextAlign.Center,
+                text = viewModel.errorMessage,
+                style = MaterialTheme.typography.h6,
+                color = Color.Red
+            )
+        }
+        else CharactersList(navController, characters = viewModel.characterList)
     }
 }
 
 @Composable
-fun CharactersList(navController: NavHostController, characters: ArrayList<com.example.data.Character>) {
+fun CharactersList(navController: NavHostController, characters: List<Character>) {
     LazyVerticalGrid (columns = GridCells.Adaptive(160.dp)){
         items(characters.size) { index ->
             Card(
