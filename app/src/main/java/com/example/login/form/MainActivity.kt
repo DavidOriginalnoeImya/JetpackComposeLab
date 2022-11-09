@@ -15,6 +15,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.ui.unit.IntOffset
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.login.form.ui.NavRoutes
+import com.example.login.form.ui.screens.SearchScreen
 import com.example.login.form.ui.theme.LoginFormTheme
 import com.example.viewmodels.MainViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -91,6 +92,23 @@ class MainActivity : ComponentActivity() {
                     ) { backStackEntry ->
                         val id = backStackEntry.arguments?.getString("id")
                         DetailScreen(navController = navController, id, viewModel)
+                    }
+                    composable(
+                        NavRoutes.Search.route,
+                        enterTransition = {
+                            slideInHorizontally(initialOffsetX = { 1000 }, animationSpec = springSpec)
+                        },
+                        exitTransition = {
+                            slideOutHorizontally(targetOffsetX = { -1000 }, animationSpec = springSpec)
+                        },
+                        popEnterTransition = {
+                            slideInHorizontally(initialOffsetX = { -1000 }, animationSpec = springSpec)
+                        },
+                        popExitTransition = {
+                            slideOutHorizontally(targetOffsetX = { 1000 }, animationSpec = springSpec)
+                        }
+                    ) {
+                        SearchScreen(navHostController =  navController, viewModel)
                     }
                 }
             }
