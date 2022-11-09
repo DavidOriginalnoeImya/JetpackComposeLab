@@ -32,8 +32,8 @@ fun PowerStatsList(
 
     Column(
         modifier = Modifier
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxWidth().padding(0.dp),
+//        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         Row(
@@ -47,7 +47,7 @@ fun PowerStatsList(
                 )
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+//            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = "Power statistics",
@@ -63,20 +63,18 @@ fun PowerStatsList(
             visible = expanded,
         ) {
             Column {
-                IconRow(
-                    text = "Power: ${viewModel.characterList[id].powerstats.power}",
-                    iconId = R.drawable.ic_baseline_sports_mma_24
-                )
-
-                IconRow(
-                    text = "Combat: ${viewModel.characterList[id].powerstats.combat}",
-                    iconId = R.drawable.ic_baseline_sports_martial_arts_24
-                )
-
-                IconRow(
-                    text = "Speed: ${viewModel.characterList[id].powerstats.speed}",
-                    iconId = R.drawable.ic_baseline_directions_run_24
-                )
+                Row {
+                    Icon(painter = painterResource(R.drawable.ic_baseline_sports_mma_24), "",)
+                    Text(text = "Power: ${viewModel.characterList[id].powerstats.power}")
+                }
+                Row {
+                    Icon(painter = painterResource(R.drawable.ic_baseline_sports_martial_arts_24), "",)
+                    Text(text = "Combat: ${viewModel.characterList[id].powerstats.combat}")
+                }
+                Row {
+                    Icon(painter = painterResource(R.drawable.ic_baseline_sports_mma_24), "",)
+                    Text(text = "Speed: ${viewModel.characterList[id].powerstats.speed}")
+                }
             }
         }
     }

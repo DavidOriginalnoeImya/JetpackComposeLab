@@ -5,6 +5,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.materialIcon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -31,24 +34,44 @@ fun ListScreen(navController: NavHostController,  viewModel: MainViewModel) {
         viewModel.requestCharacterList()
     }
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        if (viewModel.loading) {
-            CircularProgressIndicator()
-        } else if (viewModel.errorMessage !== "") {
-            Text(
-                modifier = Modifier.padding(all = 8.dp),
-                textAlign = TextAlign.Center,
-                text = viewModel.errorMessage,
-                style = MaterialTheme.typography.h6,
-                color = Color.Red
+    val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+
+    Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = {
+            TopAppBar(
+                title = {Text("")},
+                backgroundColor = MaterialTheme.colors.primary,
+                actions = {
+                    IconButton(
+                        onClick = { /*TODO*/ },
+                    ) {
+                        Icon(Icons.Filled.Search, contentDescription = "")
+                    }
+                }
             )
-        }
-        else CharactersList(navController, characters = viewModel.characterList)
-    }
+        },
+        content = {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                if (viewModel.loading) {
+                    CircularProgressIndicator()
+                } else if (viewModel.errorMessage !== "") {
+                    Text(
+                        modifier = Modifier.padding(all = 8.dp),
+                        textAlign = TextAlign.Center,
+                        text = viewModel.errorMessage,
+                        style = MaterialTheme.typography.h6,
+                        color = Color.Red
+                    )
+                }
+                else CharactersList(navController, characters = viewModel.characterList)
+            }
+        },
+    )
 }
 
 @Composable
@@ -59,10 +82,10 @@ fun CharactersList(navController: NavHostController, characters: List<Character>
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 8.dp)
                     .fillMaxWidth()
-                    .clickable (
-                            onClick = {
-                                navController.navigate(NavRoutes.Detail.route + "/" + index)
-                            }
+                    .clickable(
+                        onClick = {
+                            navController.navigate(NavRoutes.Detail.route + "/" + index)
+                        }
                     )
             ) {
                 Column{
@@ -96,5 +119,15 @@ fun CharactersList(navController: NavHostController, characters: List<Character>
             }
         }
     }
+}
+
+@Composable
+fun ToolBar(content: () -> Unit) {
+    val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
+    Scaffold(
+        scaffoldState = scaffoldState,
+        topBar = { TopAppBar(title = {Text("Top App Bar")},backgroundColor = MaterialTheme.colors.primary)  },
+        content = { content },
+    )
 }
 
