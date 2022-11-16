@@ -1,6 +1,9 @@
 package com.example.login.form.data
 
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.example.utils.Constants.Companion.CHARACTER_TABLE
 import com.google.gson.annotations.SerializedName
 
 data class Connections(@SerializedName("groupAffiliation")
@@ -9,24 +12,27 @@ data class Connections(@SerializedName("groupAffiliation")
                        val relatives: String = "")
 
 
+@Entity(tableName = CHARACTER_TABLE)
 data class Character(@SerializedName("images")
                      val images: Images,
-                     @SerializedName("appearance")
-                     val appearance: Appearance,
-                     @SerializedName("work")
-                     val work: Work,
                      @SerializedName("name")
                      val name: String = "",
-                     @SerializedName("powerstats")
-                     val powerstats: Powerstats,
-                     @SerializedName("id")
-                     val id: Int = 0,
                      @SerializedName("biography")
                      val biography: Biography,
-                     @SerializedName("slug")
-                     val slug: String = "",
-                     @SerializedName("connections")
-                     val connections: Connections
+                     @SerializedName("work")
+                     val work: Work,
+                     @SerializedName("powerstats")
+                     val powerstats: Powerstats,
+                     @PrimaryKey
+                     @SerializedName("id")
+                     val id: Int = 0,
+
+//                     @SerializedName("appearance")
+//                     val appearance: Appearance,
+//                     @SerializedName("slug")
+//                     val slug: String = "",
+//                     @SerializedName("connections")
+//                     val connections: Connections
 )
 
 

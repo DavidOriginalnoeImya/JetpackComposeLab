@@ -21,7 +21,9 @@ import com.example.viewmodels.MainViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,8 +32,6 @@ class MainActivity : ComponentActivity() {
             val navController = rememberAnimatedNavController()
 
             val springSpec = spring<IntOffset>(dampingRatio = Spring.DampingRatioMediumBouncy)
-
-            val viewModel: MainViewModel = viewModel()
 
             LoginFormTheme {
                 AnimatedNavHost(
@@ -73,7 +73,7 @@ class MainActivity : ComponentActivity() {
                             slideOutHorizontally(targetOffsetX = { 1000 }, animationSpec = springSpec)
                         }
                     ) {
-                        ListScreen(navController = navController, viewModel)
+                        ListScreen(navController = navController)
                     }
                     composable(
                         NavRoutes.Detail.route + "/{id}",
@@ -91,7 +91,7 @@ class MainActivity : ComponentActivity() {
                         }
                     ) { backStackEntry ->
                         val id = backStackEntry.arguments?.getString("id")
-                        DetailScreen(navController = navController, id, viewModel)
+                        DetailScreen(navController = navController, id)
                     }
                     composable(
                         NavRoutes.Search.route,
@@ -108,7 +108,7 @@ class MainActivity : ComponentActivity() {
                             slideOutHorizontally(targetOffsetX = { 1000 }, animationSpec = springSpec)
                         }
                     ) {
-                        SearchScreen(navHostController =  navController, viewModel)
+                        SearchScreen(navHostController =  navController)
                     }
                 }
             }

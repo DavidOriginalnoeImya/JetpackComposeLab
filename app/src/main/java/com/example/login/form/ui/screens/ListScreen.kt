@@ -7,22 +7,27 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.login.form.ui.NavRoutes
 import com.example.viewmodels.MainViewModel
+import java.util.logging.Logger
 
 @Composable
-fun ListScreen(navController: NavHostController,  viewModel: MainViewModel) {
+fun ListScreen(navController: NavHostController,  viewModel: MainViewModel = hiltViewModel()) {
     val context = LocalContext.current
 
     LaunchedEffect(context) {
         viewModel.requestCharacterList()
+        viewModel.getCharacters()
     }
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
@@ -59,7 +64,7 @@ fun ListScreen(navController: NavHostController,  viewModel: MainViewModel) {
                         color = Color.Red
                     )
                 }
-                else CharacterList(navController, characters = viewModel.characterList)
+                else CharacterList(navController, characters = viewModel.characters)
             }
         },
     )
