@@ -5,10 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,17 +14,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.login.form.data.Character
 import com.example.login.form.ui.NavRoutes
 import com.example.viewmodels.MainViewModel
 import java.util.logging.Logger
 
 @Composable
-fun ListScreen(navController: NavHostController,  viewModel: MainViewModel = hiltViewModel()) {
+fun ListScreen(navController: NavHostController,  viewModel: MainViewModel) {
     val context = LocalContext.current
+
+    val characters by viewModel.characters.collectAsState(
+        initial = emptyList()
+    )
 
     LaunchedEffect(context) {
         viewModel.requestCharacterList()
-        viewModel.getCharacters()
     }
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
@@ -64,7 +65,7 @@ fun ListScreen(navController: NavHostController,  viewModel: MainViewModel = hil
                         color = Color.Red
                     )
                 }
-                else CharacterList(navController, characters = viewModel.characters)
+                else CharacterList(navController, characters = ArrayList(characters))
             }
         },
     )

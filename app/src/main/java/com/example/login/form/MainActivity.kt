@@ -33,6 +33,8 @@ class MainActivity : ComponentActivity() {
 
             val springSpec = spring<IntOffset>(dampingRatio = Spring.DampingRatioMediumBouncy)
 
+            val viewModel: MainViewModel = viewModel()
+
             LoginFormTheme {
                 AnimatedNavHost(
                     navController = navController,
@@ -73,7 +75,7 @@ class MainActivity : ComponentActivity() {
                             slideOutHorizontally(targetOffsetX = { 1000 }, animationSpec = springSpec)
                         }
                     ) {
-                        ListScreen(navController = navController)
+                        ListScreen(navController = navController, viewModel)
                     }
                     composable(
                         NavRoutes.Detail.route + "/{id}",
@@ -91,7 +93,7 @@ class MainActivity : ComponentActivity() {
                         }
                     ) { backStackEntry ->
                         val id = backStackEntry.arguments?.getString("id")
-                        DetailScreen(navController = navController, id)
+                        DetailScreen(navController = navController, id, viewModel)
                     }
                     composable(
                         NavRoutes.Search.route,
@@ -108,7 +110,7 @@ class MainActivity : ComponentActivity() {
                             slideOutHorizontally(targetOffsetX = { 1000 }, animationSpec = springSpec)
                         }
                     ) {
-                        SearchScreen(navHostController =  navController)
+                        SearchScreen(navHostController =  navController, viewModel)
                     }
                 }
             }

@@ -35,7 +35,7 @@ import kotlin.math.roundToInt
 fun DetailScreen(
     navController: NavHostController,
     id:String?,
-    viewModel: MainViewModel = hiltViewModel(),
+    viewModel: MainViewModel,
 ) {
     val configuration = LocalConfiguration.current
 
@@ -45,9 +45,9 @@ fun DetailScreen(
 
     val context = LocalContext.current
 
-    LaunchedEffect(context) {
-        viewModel.getCharacters()
-    }
+//    LaunchedEffect(context) {
+//        viewModel.requestCharacterList()
+//    }
 
     Column(
         modifier = Modifier
@@ -58,47 +58,47 @@ fun DetailScreen(
             val characterId = id.toInt()
 
             AsyncImage(
-                model = viewModel.characters[characterId].images.lg,
+                model = viewModel.characterList[characterId].images.lg,
                 contentDescription = null,
                 modifier = Modifier.width(configuration.screenWidthDp.dp + 3.dp),
                 contentScale = ContentScale.FillWidth
             )
 
-//            Column(modifier = Modifier.padding(start = 15.dp, top = 15.dp)) {
-//                Text(
-//                    text = viewModel.characterList[characterId].name,
-//                    fontSize = 30.sp,
-//                )
-//
-//                var realName = viewModel.characterList[characterId].biography.fullName
-//
-//                if (realName == "") realName = viewModel.characterList[characterId].name
-//
-//                Text(
-//                    text = "Real name: $realName",
-//                    fontSize = 20.sp, fontWeight = FontWeight.Bold
-//                )
-//
-//                Spacer(modifier = Modifier.height(15.dp))
-//
-//                PowerStatsList(characterId, viewModel, onClick = {
-//                    coroutineScope.launch {
-//                        scrollableState.animateScrollTo(scrollToPosition.roundToInt())
-//                    }
-//                })
-//
-//                Spacer(modifier = Modifier.height(15.dp))
-//
-//                Text(
-//                    text = viewModel.characterList[characterId].work.occupation,
-//                    fontWeight = FontWeight.Bold,
-//                    modifier = Modifier.onGloballyPositioned { coordinates ->
-//                        scrollToPosition = coordinates.positionInParent().y
-//                    }
-//                )
-//
-//                Spacer(modifier = Modifier.height(10.dp))
-//            }
+            Column(modifier = Modifier.padding(start = 15.dp, top = 15.dp)) {
+                Text(
+                    text = viewModel.characterList[characterId].name,
+                    fontSize = 30.sp,
+                )
+
+                var realName = viewModel.characterList[characterId].biography.fullName
+
+                if (realName == "") realName = viewModel.characterList[characterId].name
+
+                Text(
+                    text = "Real name: $realName",
+                    fontSize = 20.sp, fontWeight = FontWeight.Bold
+                )
+
+                Spacer(modifier = Modifier.height(15.dp))
+
+                PowerStatsList(characterId, viewModel, onClick = {
+                    coroutineScope.launch {
+                        scrollableState.animateScrollTo(scrollToPosition.roundToInt())
+                    }
+                })
+
+                Spacer(modifier = Modifier.height(15.dp))
+
+                Text(
+                    text = viewModel.characterList[characterId].work.occupation,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.onGloballyPositioned { coordinates ->
+                        scrollToPosition = coordinates.positionInParent().y
+                    }
+                )
+
+                Spacer(modifier = Modifier.height(10.dp))
+            }
         }
     }
 }
