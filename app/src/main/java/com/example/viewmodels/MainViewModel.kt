@@ -28,15 +28,15 @@ class MainViewModel @Inject constructor(
 
     var loading: Boolean by mutableStateOf(true)
 
-    var characters by mutableStateOf(emptyList<Character>())
+    val characters = repo.getCharactersFromRoom()
 
-    fun getCharacters() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repo.getCharactersFromRoom().collect { response ->
-                characters = response
-            }
-        }
-    }
+//    fun getCharacters() {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            repo.getCharactersFromRoom().collect { response ->
+//                characters = response
+//            }
+//        }
+//    }
 
     fun requestCharacterList(){
         viewModelScope.launch(Dispatchers.IO) {

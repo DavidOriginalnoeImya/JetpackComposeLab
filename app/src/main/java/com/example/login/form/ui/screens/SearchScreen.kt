@@ -11,7 +11,7 @@ import androidx.navigation.NavHostController
 import com.example.viewmodels.MainViewModel
 
 @Composable
-fun SearchScreen(navHostController: NavHostController, viewModel: MainViewModel = hiltViewModel<MainViewModel>()) {
+fun SearchScreen(navHostController: NavHostController, viewModel: MainViewModel) {
     val textState = remember { mutableStateOf("") }
     Column {
         SearchView(textState)
